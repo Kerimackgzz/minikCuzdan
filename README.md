@@ -17,15 +17,8 @@ para yatırma, çekme ve bakiye görüntüleme işlemleri yapabilir.
 - `while` döngüsü ile menü sistemi
 - Guard clause pattern (early return)
 
-## Nasıl Çalıştırılır?
 
-\`\`\`bash
-python cuzdan.py
-\`\`\`
 
-## Ekran Görüntüsü
-
-(buraya konsol çıktısının bir screenshot'ını koyabilirsin)
 
 ## Geliştirici
 
