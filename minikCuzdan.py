@@ -16,32 +16,66 @@ def para_yatir(mevcut_bakiye, yatirilacak_miktar):
     return mevcut_bakiye + yatirilacak_miktar
 
 
+mevcut_bakiye = 0
+islem_listesi = []
+kullanici_adi = input("Hoşgeldiniz! Kullanıcı adınız: ")
+print(f"Merhaba {kullanici_adi}!")
 
-mevcut_bakiye=0
-  
-  
 while True:
-  
-    print("para yatırmak için :1 para çekmek için :2 mevcut bakiyeyi gözlemlemek için :3 uygulamadan çıkmak için:4 ")
-    secim=input("seçim giriniz: ")
- 
-    if (secim=="1"):
-        yatirilacak_miktar=float(input("Yatırılacak miktar: "))
-        para_yatir(mevcut_bakiye, yatirilacak_miktar)
-        mevcut_bakiye = para_yatir(mevcut_bakiye, yatirilacak_miktar) 
-        print("para yatırıldı")
-       
-    if (secim=="2"):
-        cekilecek_miktar=float(input("çekilecek miktarı giriniz"))
-        para_cek(mevcut_bakiye,cekilecek_miktar)
-        mevcut_bakiye = para_cek(mevcut_bakiye, yatirilacak_miktar) 
-     
-      
+    print("\n--- MENÜ ---")
+    print("1: Para yatır")
+    print("2: Para çek")
+    print("3: Bakiye göster")
+    print("4: İşlem geçmişi")
+    print("5: Çıkış")
+    
+    secim = input("Seçim: ")
+    
+    if secim == "1":
+        try:
+            yatirilacak_miktar = float(input("Yatırılacak miktar: "))
+        except ValueError:
+            print("Geçerli bir sayı giriniz!")
+            continue
         
-        print("para çekildi")
+        sonuc = para_yatir(mevcut_bakiye, yatirilacak_miktar)
+        
+        if isinstance(sonuc, str):
+            print(sonuc)
+        else:
+            mevcut_bakiye = sonuc
+            print("Para yatırıldı")
+            islem_listesi.append(f"{yatirilacak_miktar} TL yatırıldı")
     
-    if (secim=="3"):
-         print(mevcut_bakiye)
+    elif secim == "2":
+        try:
+            cekilecek_miktar = float(input("Çekilecek miktar: "))
+        except ValueError:
+            print("Geçerli bir sayı giriniz!")
+            continue
+        
+        sonuc = para_cek(mevcut_bakiye, cekilecek_miktar)
+        
+        if isinstance(sonuc, str):
+            print(sonuc)
+        else:
+            mevcut_bakiye = sonuc
+            print("Para çekildi")
+            islem_listesi.append(f"{cekilecek_miktar} TL çekildi")
     
-    if(secim=="4"):
-        break;
+    elif secim == "3":
+        print(f"Mevcut bakiye: {mevcut_bakiye} TL")
+    
+    elif secim == "4":
+        if len(islem_listesi) == 0:
+            print("Henüz işlem yok")
+        else:
+            for islem in islem_listesi:
+                print(islem)
+    
+    elif secim == "5":
+        print(f"Hoşçakal {kullanici_adi}!")
+        break
+    
+    else:
+        print("Geçersiz seçim!")
