@@ -16,18 +16,34 @@ def para_yatir(mevcut_bakiye, yatirilacak_miktar):
     return mevcut_bakiye + yatirilacak_miktar
 
 
-mevcut_bakiye = 0
-islem_listesi = []
-kullanici_adi = input("Hoşgeldiniz! Kullanıcı adınız: ")
-print(f"Merhaba {kullanici_adi}!")
+def kullanici_ekle(kullanicilar, yeni_ad):
+    kullanicilar[yeni_ad] = {"bakiye": 0, "islemler": []}
+    print(f"{yeni_ad} eklendi")
+
+
+kullanicilar = {}
+aktif_kullanici = None
 
 while True:
-    print("\n--- MENÜ ---")
+    
+    if aktif_kullanici is None:
+        ad = input("Kullanıcı adınız: ")
+        if ad in kullanicilar:
+            print(f"Hoşgeldin {ad}")
+        else:
+            kullanicilar[ad] = {"bakiye": 0, "islemler": []}
+            print(f"Yeni hesap oluşturuldu: {ad}")
+        aktif_kullanici = ad
+        continue
+    
+    print(f"\n--- MENÜ ({aktif_kullanici}) ---")
     print("1: Para yatır")
     print("2: Para çek")
     print("3: Bakiye göster")
     print("4: İşlem geçmişi")
-    print("5: Çıkış")
+    print("5: Yeni kullanıcı oluştur")
+    print("6: Kullanıcı değiştir")
+    print("7: Çıkış")
     
     secim = input("Seçim: ")
     
@@ -38,14 +54,14 @@ while True:
             print("Geçerli bir sayı giriniz!")
             continue
         
-        sonuc = para_yatir(mevcut_bakiye, yatirilacak_miktar)
+        sonuc = para_yatir(kullanicilar[aktif_kullanici]["bakiye"], yatirilacak_miktar)
         
         if isinstance(sonuc, str):
             print(sonuc)
         else:
-            mevcut_bakiye = sonuc
+            kullanicilar[aktif_kullanici]["bakiye"] = sonuc
             print("Para yatırıldı")
-            islem_listesi.append(f"{yatirilacak_miktar} TL yatırıldı")
+            kullanicilar[aktif_kullanici]["islemler"].append(f"{yatirilacak_miktar} TL yatırıldı")
     
     elif secim == "2":
         try:
@@ -54,27 +70,38 @@ while True:
             print("Geçerli bir sayı giriniz!")
             continue
         
-        sonuc = para_cek(mevcut_bakiye, cekilecek_miktar)
+        sonuc = para_cek(kullanicilar[aktif_kullanici]["bakiye"], cekilecek_miktar)
         
         if isinstance(sonuc, str):
             print(sonuc)
         else:
-            mevcut_bakiye = sonuc
+            kullanicilar[aktif_kullanici]["bakiye"] = sonuc
             print("Para çekildi")
-            islem_listesi.append(f"{cekilecek_miktar} TL çekildi")
+            kullanicilar[aktif_kullanici]["islemler"].append(f"{cekilecek_miktar} TL çekildi")
     
     elif secim == "3":
-        print(f"Mevcut bakiye: {mevcut_bakiye} TL")
+        print(f"Mevcut bakiye: {kullanicilar[aktif_kullanici]['bakiye']} TL")
     
     elif secim == "4":
-        if len(islem_listesi) == 0:
+        if len(kullanicilar[aktif_kullanici]["islemler"]) == 0:
             print("Henüz işlem yok")
         else:
-            for islem in islem_listesi:
+            for islem in kullanicilar[aktif_kullanici]["islemler"]:
                 print(islem)
     
     elif secim == "5":
-        print(f"Hoşçakal {kullanici_adi}!")
+        yeni_ad = input("Yeni kullanıcı adı: ")
+        if yeni_ad in kullanicilar:
+            print("Bu kullanıcı zaten var!")
+        else:
+            kullanici_ekle(kullanicilar, yeni_ad)
+    
+    elif secim == "6":
+        aktif_kullanici = None
+        continue
+    
+    elif secim == "7":
+        print(f"Hoşçakal {aktif_kullanici}!")
         break
     
     else:

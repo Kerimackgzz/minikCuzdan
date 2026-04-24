@@ -13,6 +13,10 @@ işlemleri yapabilir.
 - İşlem geçmişi (tüm yapılan işlemlerin listesi)
 - Hatalı input'a karşı koruma (try/except ile)
 - Menü tabanlı kullanıcı arayüzü
+- Çoklu kullanıcı desteği
+- Aktif kullanıcı sistemi
+- Kullanıcılar arası geçiş
+- Her kullanıcının ayrı bakiyesi/geçmişi
 
 ## Kullanılan Kavramlar
 
